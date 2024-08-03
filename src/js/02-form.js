@@ -1,67 +1,37 @@
-let formData = {email: "", message: "" };
-
+const STORAGE_KEY = "feedback-form-state";
+const formData = {email: "", message: "" };
 const formClass = document.querySelector('.feedback-form');
-const errorDiv = formClass.querySelector('.error');
+
+formChange
 
 formClass.addEventListener("submit", (e) => {
-
     e.preventDefault();
-    const email = e.target[0].value;
-    const message = e.target[1].value;
-    if(email && message) {
-        formData.email = email;
-        formData.message = message;
-    
-        console.log(formData);
-        errorDiv.style.display  = "none";
-        localStorage.setItem("feedback-form-stat", JSON.stringify(formData));
-    } else {
-       
-        errorDiv.style.display  = "block";
+    const email = formData.email;
+    const message = formData.message;
+    if(!email || !message) {
+        alert('Fill please all fields');
+        return;
+    }
+    localStorage.removeItem(STORAGE_KEY);
+})
+formClass.addEventListener("input", handleFormInput)
+function handleFormInput(event){
+const key = event.target.name.trim();
+const value = event.target.value.trim();
+formData[key] = value;
+localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
+console.log(key, value)
+}
+function formChange (){
+    const localData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    if (!localData) {
+        return;
+    }
+    for (const key in localData){
+        form.elements[key].value = localData[key];
+        formData[key] = localData[key];
+
+    }
     }
 
-})
 
-const localData = localStorage.getItem("feedback-form-stat");
-if (!!localData) {
-    formData = JSON.parse(localData);
-    const emailHTML = formClass.querySelector(".email");
-    const messageHTML = formClass.querySelector(".message");
-
-    emailHTML.value = formData.email;
-    messageHTML.value = formData.message;
-}
-let formData = {email: "", message: "" };
-
-const formClass = document.querySelector('.feedback-form');
-const errorDiv = formClass.querySelector('.error');
-
-formClass.addEventListener("submit", (e) => {
-
-    e.preventDefault();
-    const email = e.target[0].value;
-    const message = e.target[1].value;
-    if(email && message) {
-        formData.email = email;
-        formData.message = message;
-    
-        console.log(formData);
-        errorDiv.style.display  = "none";
-        localStorage.setItem("feedback-form-stat", JSON.stringify(formData));
-        // formClass.reset
-    } else {
-       
-        errorDiv.style.display  = "block";
-    }
-
-})
-
-const localData = localStorage.getItem("feedback-form-stat");
-if (!!localData) {
-    formData = JSON.parse(localData);
-    const emailHTML = formClass.querySelector(".email");
-    const messageHTML = formClass.querySelector(".message");
-
-    emailHTML.value = formData.email;
-    messageHTML.value = formData.message;
-}
