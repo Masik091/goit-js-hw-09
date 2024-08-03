@@ -1,0 +1,2 @@
+import"./assets/modulepreload-polyfill-3cfb730f.js";const s="feedback-form-state",o={email:"",message:""},l=document.querySelector(".feedback-form");l.addEventListener("submit",e=>{e.preventDefault();const t=o.email,a=o.message;if(!t||!a){alert("Fill please all fields");return}localStorage.removeItem(s)});l.addEventListener("input",r);function r(e){const t=e.target.name.trim(),a=e.target.value.trim();o[t]=a,localStorage.setItem(s,JSON.stringify(o)),console.log(t,a)}
+//# sourceMappingURL=commonHelpers2.js.map
