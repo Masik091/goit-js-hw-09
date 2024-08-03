@@ -1,19 +1,6 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
-const images1 = [
-    {
-      preview: 'path-to-small-image-1.jpg',
-      original: 'path-to-large-image-1.jpg',
-      description: 'Image 1 Description'
-    },
-    {
-      preview: 'path-to-small-image-2.jpg',
-      original: 'path-to-large-image-2.jpg',
-      description: 'Image 2 Description'
-    },
-  ];
-  
-  const images = [
+const images = [
     {
       preview:
         'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
@@ -79,27 +66,44 @@ const images1 = [
     },
   ];
   
-  const galleryContainer = document.querySelector('.gallery');
-  const galleryMarkup = createGalleryMarkup(images);
+  const gallery = document.querySelector('.gallery');
+
+  const createGalleryItemMarkup = ({ preview, original, description }) => {
+    return `
+      <li class="gallery-item">
+        <a class="gallery-link" href="${original}">
+          <img
+            class="gallery-image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+          />
+        </a>
+      </li>
+    `;
+  };
   
-  galleryContainer.innerHTML = galleryMarkup;
+  const galleryMarkup = images.map(createGalleryItemMarkup).join('');
   
-  function createGalleryMarkup(images) {
-    return images.map(({ preview, original, description }) => {
-      return `
-        <li class="gallery-item">
-          <a class="gallery-link" href="${original}">
-            <img
-              class="gallery-image"
-              src="${preview}"
-              alt="${description}"
-            />
-          </a>
-        </li>
-      `;
-    }).join('');
-  }
+  gallery.innerHTML = galleryMarkup;
   
+  gallery.addEventListener('click', event => {
+    event.preventDefault();
+  
+    const isGalleryImage = event.target.classList.contains('gallery-image');
+    
+    if (!isGalleryImage) {
+      return;
+    }
+  
+    const { source } = event.target.dataset;
+  
+    const instance = basicLightbox.create(`
+      <img src="${source}" width="800" height="600">
+    `);
+  
+    instance.show();
+  });  
   const lightbox = new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionDelay: 250,
