@@ -1,5 +1,4 @@
 .gallery {
-    list-style: none;
     width: 1128px;
     display: flex;
     flex-wrap: wrap;
@@ -9,7 +8,6 @@
 }
 
 .gallery-item {
-    list-style: none;
     display: flex;
     flex-shrink: 0;
     width: calc((100% - 48px) / 3);
